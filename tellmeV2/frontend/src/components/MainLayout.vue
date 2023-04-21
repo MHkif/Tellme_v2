@@ -124,6 +124,7 @@
 <script>
 import SideBar from "./SideBar.vue";
 import axios from "axios";
+import Swal from "sweetalert2";
 export default {
     name: "MainLayout",
     components: {
@@ -137,45 +138,47 @@ export default {
     },
     methods: {},
     mounted() {
-        if (this.$store.state.token != null) {
-            // axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-            let config = {
-                method: "post",
-                maxBodyLength: Infinity,
-                url: "http://127.0.0.1:8000/api/v1/checkToken",
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                    Authorization: `Bearer ${this.$store.state.token}`,
-                },
-            };
-            axios
-                .request(config)
-                .then((res) => {
-                    console.log(" Response :", res.data);
-                    if (res.data.status === "Expired") {
-                        // this.$store.commit("setToken", res.data.token);
-                        Swal.fire({
-                            title: "Your session has expired",
-                            text: "Please log in again to continue using the app .",
-                            confirmButtonText: "Login",
-                        }).then((result) => {
-                            /* Read more about isConfirmed, isDenied below */
-                            if (result.isConfirmed) {
-                                this.$router.push("/login");
-                            } else if (result.isDenied) {
-                                Swal.fire("Changes are not saved", "", "info");
-                            }
-                        });
-                    }
-                })
-                .catch((err) => {
-                    //   this.$store.commit("clearToken");
-                    this.$router.push("/login");
-                });
-        } else {
-            this.$router.push("/login");
-        }
+        // if (this.$store.state.token != null) {
+        // axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+        let config = {
+            method: "post",
+            maxBodyLength: Infinity,
+            url: "http://127.0.0.1:8000/api/v1/checkToken",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${this.$store.state.token}`,
+            },
+        };
+        axios
+            .request(config)
+            .then((res) => {
+                console.log(" Response :", res.data);
+                if (res.data.error === "TokenExpired") {
+                    Swal.fire({
+                        title: "Your session has expired",
+                        text: "Please log in again to continue using the app .",
+                        confirmButtonText: "Login",
+                    }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                            this.$store.commit("clearToken");
+                            this.$router.push("/login");
+                        } else if (result.isDenied) {
+                            window.relaod();
+                        }
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log("Errr : ", err);
+                this.$store.commit("clearToken");
+                this.$router.push("/login");
+            });
+        // }
+        // else {
+        //     this.$router.push("/login");
+        // }
     },
 };
 </script>

@@ -71,11 +71,18 @@ export default {
     },
     methods: {
         getPodcasts() {
-            axios
-                .get("http://127.0.0.1:8000/api/v1/podcasts", {
+            let config = {
+                method: "get",
+                maxBodyLength: Infinity,
+                url: "http://127.0.0.1:8000/api/v1/podcasts",
+                headers: {
+                    "Content-Type": "application/json",
                     Accept: "application/json",
                     Authorization: `Bearer ${this.$store.state.token}`,
-                })
+                },
+            };
+            axios
+                .request(config)
                 .then((response) => {
                     console.log("Response Data : ", response);
                     if (response.data) {

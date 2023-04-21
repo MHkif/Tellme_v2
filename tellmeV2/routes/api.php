@@ -19,14 +19,14 @@ use App\Http\Controllers\Api\V1\RoomController;
 |
 */
 
-Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], function () {
+Route::group(['prefix' => 'v1'], function () {
     Route::apiResource('podcasts', PodcastController::class);
-    Route::post('podcast/store', [PodcastController::class, 'store']);
+    // Route::post('podcast/store', [PodcastController::class, 'store']);
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'register']);
     Route::post('checkToken', [AuthController::class, 'checkToken']);
     Route::post('logout',  [AuthController::class, 'logout']);
-    Route::post('podcasts', [PodcastController::class, 'index']);
+    // Route::post('podcasts', [PodcastController::class, 'index']);
     Route::post('search', [UserController::class, 'search']);
     Route::post('calling', [NotificationController::class, 'notifyUser']);
     Route::post('callUser', [RoomController::class, 'callUser']);

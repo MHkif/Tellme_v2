@@ -6,7 +6,7 @@
     >
       <slot
         >This is the default content if nothing gets specified inside
-        PlayListScroll Compenent</slot
+        ListScroll Compenent</slot
       >
     </div>
   </section>

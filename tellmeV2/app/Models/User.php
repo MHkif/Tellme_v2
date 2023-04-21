@@ -39,6 +39,8 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Podcast::class);
     }
+
+    
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -20,25 +20,22 @@ class PodcastController extends Controller
     public function index()
     {
         return new PodcastCollection(Podcast::all());
+        // return response()->json('From Poscasts');
     }
 
     public function show(Podcast $podcast)
     {
         return new PodcastResource($podcast);
     }
-    public function store(Request $request)
+    public function store(StorePodcastRequest $request)
     {
-        // dd($request->all());
-        $data = $request->validate([
-            'user_id' => 'required',
-            'title' => 'required',
-            'description' => 'required',
-            'url' => 'required',
-            'duration' => 'required',
-            'cover' => 'required',
-            'category_id' => 'required'
-        ]);
-        Podcast::create($data);
-        return response()->json("success");
+        Podcast::create($request->validated());
+        return response()->json(["created" => true, "message" => "Podcast Created Successfully"]);
+    }
+
+    public function update(StorePodcastRequest $request, Podcast $podcast){
+        $podcast->update($request->validated());
+        return response()->json(["updated" => true, "message" => "Podcast Updated Successfully"]);
+
     }
 }
