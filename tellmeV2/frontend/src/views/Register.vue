@@ -227,22 +227,22 @@ export default {
                     // }
                 });
         },
-        myPodcasts() {
-            axios
-                .post(
-                    "http://127.0.0.1:8000/api/v1/mypodcasts",
-                    this.$store.state.id
-                )
-                .then((response) => {
-                    console.log("Response My Podcasts : ", response);
-                    if (response.data) {
-                        this.podcasts = response.data.data;
-                    }
-                })
-                .catch((error) => {
-                    console.log("Error My Podcasts:", error.response);
-                });
-        },
+        // myPodcasts() {
+        //     axios
+        //         .post(
+        //             "http://127.0.0.1:8000/api/v1/mypodcasts",
+        //             this.$store.state.id
+        //         )
+        //         .then((response) => {
+        //             console.log("Response My Podcasts : ", response);
+        //             if (response.data) {
+        //                 this.podcasts = response.data.data;
+        //             }
+        //         })
+        //         .catch((error) => {
+        //             console.log("Error My Podcasts:", error.response);
+        //         });
+        // },
     },
 
     mounted() {

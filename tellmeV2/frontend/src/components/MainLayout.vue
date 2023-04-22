@@ -166,10 +166,9 @@ export default {
                             this.$store.commit("clearToken");
                             this.$router.push("/login");
                         } else if (result.isDenied) {
-                            window.relaod();
+                            location.reload()
                         } else if (result.isDismissed) {
-                            window.relaod();
-                            alert();
+                            location.reload()
                         }
                     });
                 }

@@ -10,12 +10,12 @@
         Streaming
       </h3>
 
-      <button
-        @click="joinStreamInit"
-        class="flex justify-center rounded bg-gray-900 px-4 py-2 text-md font-semibold text-orange-600 border border-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+      <router-link
+                  to="/streams"
+        class="flex justify-center rounded bg-gray-900 px-4 py-2 text-md font-semibold text-orange-600 hover:text-white border border-orange-600 hover:border-red-600 hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
       >
-        Launch a Stream
-      </button>
+        Stop Stream
+      </router-link>
     </div>
 
     <!-- Main -->

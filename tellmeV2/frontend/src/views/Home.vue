@@ -7,7 +7,9 @@
         <Hero></Hero>
 
         <!--  Podcasts Section -->
-        <ListScroll title="Popular Podcasts Episodes">
+        <ListScroll
+        v-show="podcasts.length"
+        title="Popular Podcasts Episodes">
             <SnapPodcast
                 v-for="podcast in podcasts"
                 :key="podcast.id"
@@ -17,13 +19,29 @@
         <!-- End  Podcasts Section -->
 
         <!--  Playlist Section -->
-        <ListScroll title="Popular Playlists">
+        <ListScroll
+        v-if="playlists.length"
+        title="Popular Playlists">
             <PlayListCard
                 v-for="playlist in playlists"
                 :key="playlist.id"
                 :playlist="playlist"
             />
         </ListScroll>
+        <section
+            v-else
+            class="w-full flex items-center justify-center flex-col gap-4 p-8"
+        >
+            <h3 class="font-bold text-center text-xl text-gray-800">
+                No Playlists Has been found, Try to create one .
+            </h3>
+            <Button
+                @click="this.modelOpen = true"
+                class="flex justify-center rounded bg-gray-900 px-4 py-2 text-md font-semibold text-orange-600 border border-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+            >
+                Create PlayList
+            </Button>
+        </section>
         <!-- End  Playlist Section -->
 
         <!--  Podcasts  Section -->

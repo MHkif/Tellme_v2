@@ -15,6 +15,7 @@ import AdminLayout from "../components/AdminLayout.vue";
 import AuthLayout from "../components/AuthLayout.vue";
 import MainLayout from "../components/MainLayout.vue";
 import Speakers from "../views/Speakers.vue";
+import PodcastPanel from "../views/admin/podcastPanel.vue"
 import Settings from "../views/Settings.vue";
 
 const routes = [
@@ -25,6 +26,7 @@ const routes = [
         meta: { requiresAuth: true },
         children: [
             { path: "/dashboard", name: "Dashboard", component: Dashboard },
+            { path: "/podcastPanel", name: "PodcastPanel", component: PodcastPanel },
         ],
     },
 
@@ -53,7 +55,7 @@ const routes = [
         meta: { requiresAuth: true },
         children: [
             {
-                path: "/",
+                path: "/home",
                 name: "home",
                 component: Home,
             },

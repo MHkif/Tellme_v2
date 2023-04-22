@@ -33,10 +33,21 @@
                             type="email"
                             v-model="credentials.email"
                             autocomplete="email"
-                            required=""
-                            class="relative block w-full rounded-md border border-orange-600 py-2.5 text-gray-900 ring-1 ring-outset ring-orange-600 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                            :class="
+                                !emailErr
+                                    ? 'border-orange-500'
+                                    : 'border-red-600 ring-none'
+                            "
+                            class="relative block w-full rounded-md border py-2.5 text-gray-900 ring-1 ring-outset ring-orange-600 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                             placeholder="Enter Your Email"
                         />
+                        <p
+                            v-show="emailErr"
+                            id="email_Error"
+                            class="mt-1 text-xs text-red-500"
+                        >
+                            {{ emailErr }}
+                        </p>
                     </div>
                     <div class="space-y-2">
                         <label for="password" class="pl-2 font-medium"
@@ -48,10 +59,21 @@
                             v-model="credentials.password"
                             type="password"
                             autocomplete="current-password"
-                            required=""
-                            class="relative block w-full rounded-md border border-orange-600 py-2.5 text-gray-900 ring-1 ring-outset ring-orange-600 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-orange-600 foucus:border-orange-400 sm:text-sm sm:leading-6"
-                            placeholder="Password"
-                        />
+                            :class="
+                                    !passwordErr
+                                        ? 'border-orange-500'
+                                        : 'border-red-600  ring-none'
+                                "
+                                class="relative block w-full rounded-md border py-2.5 text-gray-900 ring-1 ring-outset ring-orange-600 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-orange-600 foucus:border-orange-400 sm:text-sm sm:leading-6"
+                                placeholder="Password"
+                            />
+                            <p
+                                v-show="passwordErr"
+                                id="password_Error"
+                                class="mt-1 text-xs text-red-500"
+                            >
+                                {{ passwordErr }}
+                            </p>
                     </div>
                 </div>
 
@@ -103,6 +125,8 @@ export default {
                 email: "",
                 password: "",
             },
+            emailErr:"",
+            passwordErr:"",
             loading: true,
         };
     },
@@ -120,7 +144,19 @@ export default {
                     this.$router.push("/");
                 })
                 .catch((error) => {
-                    console.log(error);
+                    console.log("Error : ", error);
+                    if (error.response.data.email) {
+                        this.emailErr =
+                            error.response.data.email[0];
+                    } else {
+                        this.emailErr = "";
+                    }
+                    if (error.response.data.password) {
+                        this.passwordErr =
+                            error.response.data.password[0];
+                    } else {
+                        this.passwordErr = "";
+                    }
                 });
         },
     },
@@ -139,6 +175,7 @@ export default {
                 .catch((err) => {
                     this.loading = false;
                     this.$store.commit("clearToken");
+                    this.$router.push("/login");
                 });
         }
     },

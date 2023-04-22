@@ -5,7 +5,7 @@
         <!-- End Navbar -->
 
         <div
-            class="flex w-full h-[calc(100vh)] items-center justify-center p-8"
+            class="flex w-full h-[calc(100vh)] items-center justify-center p-4"
         >
             <div
                 class="flex items-center justify-center relative h-full w-[100%]"
@@ -145,7 +145,7 @@ export default {
     methods: {
         async init() {
             (this.recorded = false),
-                (this.isRecordeing = true),
+                this.isRecordeing = true;
                 (document.querySelector("video").innerHTML = null);
 
             await navigator.mediaDevices
@@ -161,6 +161,12 @@ export default {
                 .then(this.accessMedia)
                 .catch((e) => {
                     console.error("getUserMedia() failed: " + e);
+                if(e === 'NotAllowedError'){
+                    alert("Please Allow your camera")
+                }
+                    this.isRecordeing = false
+           
+
                 });
             // document.getElementById("video").srcObject = this.localStream;
         },

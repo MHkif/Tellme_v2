@@ -6,23 +6,25 @@
         <div class="flex h-screen flex-col justify-between pb-4">
             <div>
                 <!-- Profile -->
-                <li class="min-w-max">
+                <li class="min-w-max ">
                     <router-link
                         to="/profile"
                         aria-label="profile"
-                        class="flex items-center px-1 text-white"
-                    >
-                        <div class="flex w-full items-center space-x-4">
+                        active-class="text-orange-600 "
+                            class="group relative flex items-center  space-x-4 p-1.5 text-orange-50"
+>
+                        <div class="flex w-full items-center  space-x-4">
                             <div class="flex items-center justify-center">
                                 <img
-                                    class="w-10 h-10 mx-auto rounded-full border-2 border-gray-600 hover:border-orange-600"
+
+                                    class="w-10 h-10  rounded-full border-2 border-orange-600"
                                     src="../assets/italo.jpg"
                                     alt=""
                                 />
                             </div>
 
                             <span
-                                class="font-medium text-white hover:text-orange-600"
+                                class="font-medium hover:text-orange-600"
                             >
                                 {{ user.first_name }} {{ user.last_name }}</span
                             >
@@ -30,29 +32,28 @@
                     </router-link>
                 </li>
 
-                <ul class="mt-5 space-y-1 tracking-wide">
-                    <li class="min-w-max">
+                <ul class="mt-5 space-y-1 tracking-wide text-orange-50">
+                    <li class="min-w-max ">
                         <router-link
-                            to="/"
+                            to="/home"
                             aria-label="home"
-                            class="group relative flex items-center space-x-4 px-1 py-1 text-white"
-                        >
-                            <div
-                                active-class="bg-orange-50 border border-orange-600 rounded"
-                                class="flex w-full mr-2 items-center space-x-4 group-hover:bg-orange-50 rounded"
-                            >
+                            active-class="text-orange-600"
+                            class="group relative flex items-center space-x-4 p-1"
+>
+                            
                                 <div
-                                    active-class="border border-orange-600"
-                                    class="flex items-center justify-center rounded p-2"
-                                >
+                                class="group flex items-center  justify-center rounded p-2"
+                               >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke-width="2"
                                         stroke="currentColor"
-                                        class="w-6 h-6 text-orange-600"
-                                    >
+                                        active-class="text-orange-600"
+                                    
+                                    class="w-6 h-6  group-hover:text-orange-600"
+                                 >
                                         <path
                                             stroke-linecap="round"
                                             stroke-linejoin="round"
@@ -60,10 +61,11 @@
                                         />
                                     </svg>
                                 </div>
-                                <span class="font-medium text-orange-600"
+                                <span  class="flex items-center group-hover:text-orange-600 font-medium"
+                               
                                     >Home</span
                                 >
-                            </div>
+                            
                         </router-link>
                     </li>
 
@@ -71,18 +73,22 @@
                         <router-link
                             to="/meeting"
                             aria-label="meeting"
-                            class="group relative flex items-center space-x-4 p-1 text-white"
+                            active-class="text-orange-600"
+
+                            class="group relative flex items-center space-x-4 p-1"
                         >
                             <div
-                                class="group flex items-center justify-center rounded p-2"
-                            >
+                                class="group flex items-center  justify-center rounded p-2"
+                                >
                                 <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    stroke-width="1.5"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    class="w-6 h-6 text-orange-50 group-hover:text-orange-600"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                stroke-width="1.5"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                active-class="text-orange-600"
+                                    
+                                    class="w-6 h-6  group-hover:text-orange-600"
                                 >
                                     <path
                                         stroke-linecap="round"
@@ -91,7 +97,7 @@
                                 </svg>
                             </div>
                             <span
-                                class="flex items-center group-hover:text-orange-600"
+                                class="flex items-center group-hover:text-orange-600 font-medium"
                                 >Meeting</span
                             >
                         </router-link>
@@ -101,8 +107,10 @@
                         <router-link
                             to="/discover"
                             aria-label="meeting"
-                            class="group relative flex items-center space-x-4 p-1 text-white"
-                        >
+                            active-class="text-orange-600"
+
+class="group relative flex items-center space-x-4 p-1"
+>
                             <div
                                 class="group flex items-center justify-center rounded p-2"
                             >
@@ -112,8 +120,11 @@
                                     viewBox="0 0 24 24"
                                     stroke-width="1.5"
                                     stroke="currentColor"
-                                    class="w-6 h-6 text-orange-50 group-hover:text-orange-600"
-                                >
+                                    active-class="text-orange-600"
+                                    
+                                    class="w-6 h-6  group-hover:text-orange-600"
+                               
+                                 >
                                     <path
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
@@ -122,7 +133,7 @@
                                 </svg>
                             </div>
                             <span
-                                class="group-hover:text-orange-600 group-hover:font-medium"
+                                class="group-hover:text-orange-600 font-medium"
                                 >Discover</span
                             >
                         </router-link>
@@ -132,15 +143,17 @@
                         <router-link
                             to="/podcasts"
                             aria-label="meeting"
-                            class="group relative flex items-center space-x-4 p-1 text-white"
-                        >
+                            active-class="fill-orange-600 text-orange-600"
+                            class="group relative flex items-center space-x-4 p-1 fill-orange-50"
+>
                             <div
                                 class="group flex items-center justify-center rounded p-2"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
-                                    class="w-6 h-6 fill-orange-50 group-hover:fill-orange-600"
+
+                                    class="w-6 h-6  group-hover:fill-orange-600"
                                 >
                                     <circle cx="12.01" cy="12" r="2"></circle>
                                     <path d="M11.01 22h2l.5-7h-3l.5 7z"></path>
@@ -153,7 +166,7 @@
                                 </svg>
                             </div>
                             <span
-                                class="group-hover:text-orange-600 group-hover:font-medium"
+                                class="group-hover:text-orange-600 font-medium"
                                 >Podcasts</span
                             >
                         </router-link>
@@ -163,8 +176,9 @@
                         <router-link
                             to="/streams"
                             aria-label="meeting"
-                            class="group relative flex items-center space-x-4 p-1 text-white"
-                        >
+                            active-class="fill-orange-600 text-orange-600"
+                            class="group relative flex items-center space-x-4 p-1 fill-orange-50 "
+>
                             <div
                                 class="group flex items-center justify-center rounded p-2"
                             >
@@ -174,7 +188,7 @@
                                     viewBox="0 0 24 24"
                                     stroke-width="1.5"
                                     stroke="currentColor"
-                                    class="w-6 h-6 text-orange-50 group-hover:text-orange-600"
+                                    class="w-6 h-6  group-hover:text-orange-600 font-medium"
                                 >
                                     <path
                                         stroke-linecap="round"
@@ -194,8 +208,9 @@
                         <router-link
                             to="/speakers"
                             aria-label="meeting"
-                            class="group relative flex items-center space-x-4 p-1 text-white"
-                        >
+                            active-class="fill-orange-600 text-orange-600"
+                            class="group relative flex items-center space-x-4 p-1 fill-orange-50"
+ >
                             <div
                                 class="group flex items-center justify-center rounded p-2"
                             >
@@ -205,7 +220,7 @@
                                     viewBox="0 0 24 24"
                                     stroke-width="1.5"
                                     stroke="currentColor"
-                                    class="w-6 h-6 text-orange-50 group-hover:text-orange-600"
+                                    class="w-6 h-6 group-hover:text-orange-600 font-medium"
                                 >
                                     <path
                                         stroke-linecap="round"
@@ -215,7 +230,7 @@
                                 </svg>
                             </div>
                             <span
-                                class="group-hover:text-orange-600 group-hover:font-medium"
+                                class="group-hover:text-orange-600 font-medium"
                                 >Speakers</span
                             >
                         </router-link>
@@ -223,14 +238,15 @@
                     <li class="min-w-max">
                         <router-link
                             to="/settings"
-                            class="group flex items-center space-x-4 p-1 text-white"
-                        >
+                            active-class="fill-orange-600 text-orange-600"
+                            class="group relative flex items-center space-x-4 p-1 fill-orange-50"
+ >
                             <div
                                 class="flex items-center justify-center rounded p-2"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-6 w-6 fill-orange-50 group-hover:fill-orange-600"
+                                    class="h-6 w-6 group-hover:fill-orange-600"
                                     viewBox="0 0 20 20"
                                     fill="currentColor"
                                 >
@@ -241,7 +257,7 @@
                                     />
                                 </svg>
                             </div>
-                            <span class="group-hover:text-orange-600"
+                            <span class="group-hover:text-orange-600 font-medium"
                                 >Settings</span
                             >
                         </router-link>
@@ -421,6 +437,7 @@
 <script>
 import axios from "axios";
 // import store from "../store";
+import { useRoute } from "vue-router";
 
 export default {
     name: "sideBar",
@@ -428,6 +445,7 @@ export default {
         return {
             user: {},
             show: this.$store.state.play,
+         
         };
     },
     methods: {
@@ -453,6 +471,7 @@ export default {
     },
     mounted() {
         this.user = this.$store.state.user;
+
         // console.log("User : ", this.$store.state.user);
     },
 };
