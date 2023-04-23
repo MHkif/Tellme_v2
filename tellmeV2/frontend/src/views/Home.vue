@@ -18,9 +18,11 @@
 
         <!--  Playlist Section -->
         <ListScroll title="Popular Playlists">
-            <PlayListCard />
-            <PlayListCard />
-            <PlayListCard />
+            <PlayListCard
+                v-for="playlist in playlists"
+                :key="playlist.id"
+                :playlist="playlist"
+            />
         </ListScroll>
         <!-- End  Playlist Section -->
 
@@ -67,6 +69,7 @@ export default {
             loading: false,
             podcasts: [],
             podcast: this.$store.state.podcasts,
+            playlists: [],
         };
     },
     methods: {
@@ -93,9 +96,34 @@ export default {
                     console.log("Error :", error.response);
                 });
         },
+        getPlayLists() {
+            let config = {
+                method: "get",
+                maxBodyLength: Infinity,
+                url: "http://127.0.0.1:8000/api/v1/playlists",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    Authorization: `Bearer ${this.$store.state.token}`,
+                },
+            };
+            axios
+                .request(config)
+
+                .then((response) => {
+                    console.log("Response  PlayLists : ", response);
+                    if (response.data) {
+                        this.playlists = response.data;
+                    }
+                })
+                .catch((error) => {
+                    console.log("Error  PlayLists:", error.response);
+                });
+        },
     },
     mounted() {
         this.getPodcasts();
+        this.getPlayLists();
         // if (this.$store.state.token !== "") {
         //   axios
         //     .post("http://127.0.0.1:8000/api/v1/checkToken", {

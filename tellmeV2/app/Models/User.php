@@ -35,12 +35,17 @@ class User extends Authenticatable implements JWTSubject
     //             ->orWhere('email', 'like', '%' . request('users') . '%');
     //     }
     // }
-    public function podcasts()
+    public function podcast()
     {
         return $this->hasMany(Podcast::class);
     }
 
-    
+    public function playLists()
+    {
+        return $this->hasMany(PlayList::class);
+    }
+
+
     /**
      * The attributes that should be hidden for serialization.
      *

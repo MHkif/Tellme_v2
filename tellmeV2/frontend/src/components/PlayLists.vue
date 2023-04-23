@@ -29,7 +29,7 @@
 
 <script>
 export default {
-    name: "PlayListCard",
+    name: "PlayLists",
     props: ["playlist"],
 };
 </script>

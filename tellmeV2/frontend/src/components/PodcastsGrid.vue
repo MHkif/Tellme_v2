@@ -96,11 +96,18 @@
                                                 ? 'border-gray-200'
                                                 : 'border-red-600  '
                                         "
-                                        class="block w-full mt-2 text-gray-600 placeholder-gray-400 bg-white border rounded focus:border-orange-300 focus:outline-none focus:ring-1 focus:ring-orange-300 focus:ring-opacity-40"
+                                        class="block w-full mt-2 text-gray-600 placeholder-gray-400 bg-white border  rounded focus:border-orange-300 focus:outline-none focus:ring-1 focus:ring-orange-300 focus:ring-opacity-40"
                                         aria-placeholder="category"
+                                        placeholder="Category"
                                         aria-label="select a category"
                                     >
-                                        <option value="1">category</option>
+                                        <option
+                                            v-for="category in categories"
+                                            :key="category.id"
+                                            :value="category.id"
+                                        >
+                                            {{ category.name }}
+                                        </option>
                                     </select>
                                     <p
                                         v-show="catyError"
@@ -199,7 +206,7 @@
                                 </div>
                                 <div>
                                     <label
-                                        for="category"
+                                        for="playlist"
                                         class="block text-sm text-gray-700 capitalize dark:text-gray-200"
                                         >Playlist
                                         <span class="text-xs"
@@ -215,14 +222,20 @@
                                                 : 'border-red-600'
                                         "
                                         class="block w-full mt-2 text-gray-600 placeholder-gray-400 bg-white border rounded focus:border-orange-300 focus:outline-none focus:ring-1 focus:ring-orange-300 focus:ring-opacity-40"
-                                        aria-placeholder="category"
-                                        aria-label="select a category"
+                                        aria-placeholder="playlist"
+                                        aria-label="select a playlist"
                                     >
-                                        <option value="1">List 1</option>
+                                        <option
+                                            v-for="playlist in playlists"
+                                            :key="playlist.id"
+                                            :value="playlist.id"
+                                        >
+                                            {{ playlist.name }}
+                                        </option>
                                     </select>
                                     <p
                                         v-show="playListError"
-                                        id="categoryErr"
+                                        id="playlistErr"
                                         class="mt-1 text-xs text-red-500"
                                     >
                                         {{ playListError }}
@@ -279,6 +292,8 @@ export default {
         return {
             modelOpen: false,
             route: "",
+            categories: [],
+            playlists: [],
             data: {
                 user_id: this.$store.state.id,
                 title: "",
@@ -364,9 +379,37 @@ export default {
                     }
                 });
         },
+        getCategories() {
+            axios
+                .get("http://127.0.0.1:8000/api/v1/categories")
+                .then((response) => {
+                    console.log("Response Categories : ", response.data);
+                    if (response.data) {
+                        this.categories = response.data;
+                    }
+                })
+                .catch((error) => {
+                    console.log("Error Categories :", error.response);
+                });
+        },
+
+        myPlaylists() {
+            axios
+                .get("http://127.0.0.1:8000/api/v1/myPlaylists")
+                .then((response) => {
+                    console.log("Response Playlists : ", response.data);
+                    if (response.data) {
+                        this.playlists = response.data;
+                    }
+                })
+                .catch((error) => {
+                    console.log("Error Playlists :", error.response);
+                });
+        },
     },
     mounted() {
         this.route = useRoute().name;
+        this.getCategories();
     },
 };
 const cloudName = "dr2ly0dd5"; // replace with your own cloud name

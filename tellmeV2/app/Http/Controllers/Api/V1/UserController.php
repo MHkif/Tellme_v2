@@ -7,7 +7,9 @@ use App\Models\Podcast;
 use App\Models\PlayList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\V1\PodcastCollection;
 use App\Http\Resources\V1\PlayListCollection;
 
@@ -28,8 +30,10 @@ class UserController extends Controller
         $count = Podcast::where('user_id', $request->user_id)->count();
         return new PodcastCollection(Podcast::where('user_id', $request->user_id)->get());
     }
-    public function myPlayLists(Request $request)
+    public function playlists(Request $request)
     {
-        return new PlayListCollection(PlayList::where('user_id', $request->user_id)->get());
+        $user = User::find($request->user_id);
+        // dd($user);
+        return new PlayListCollection($user->playLists);
     }
 }

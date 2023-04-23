@@ -47,9 +47,11 @@
 
         <!--  Playlist Section -->
         <ListScroll v-if="playlists.length" title="Your Playlists">
-            <PlayListCard />
-            <PlayListCard />
-            <PlayListCard />
+            <PlayListCard
+                v-for="playlist in playlists"
+                :key="playlist.id"
+                :playlist="playlist"
+            />
         </ListScroll>
         <section
             v-else
@@ -67,7 +69,7 @@
         </section>
         <!-- End  Playlist Section -->
 
-             <!--  Podcasts  Section -->
+        <!--  Podcasts  Section -->
         <PodcastsGrid
             v-if="podcasts.length"
             title="Your Podcasts"
@@ -122,7 +124,6 @@ export default {
             user: {},
             loading: true,
             podcasts: [],
-            categories: [],
             playlists: [],
             podcast: this.$store.state.podcasts,
             modelOpen: false,
@@ -155,26 +156,21 @@ export default {
                 });
         },
 
-        getCategories() {
-            axios
-                .get("")
-                .then((response) => {
-                    console.log("Response Categories : ", response);
-                    if (response.data) {
-                        this.categories = response.data.data;
-                    }
-                })
-                .catch((error) => {
-                    console.log("Error Categories :", error.response);
-                });
-        },
-
         getPlayList() {
+            let config = {
+                method: "post",
+                maxBodyLength: Infinity,
+                url: "http://127.0.0.1:8000/api/v1/myplaylists",
+                data: { user_id: this.$store.state.id },
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    Authorization: `Bearer ${this.$store.state.token}`,
+                },
+            };
             axios
-                .post(
-                    "http://127.0.0.1:8000/api/v1/myPlayLists",
-                    this.$store.state.id
-                )
+                .request(config)
+
                 .then((response) => {
                     console.log("Response My PlayLists : ", response);
                     if (response.data) {
@@ -189,7 +185,6 @@ export default {
     mounted() {
         this.user = this.$store.state.user;
         this.myPodcasts();
-        this.getCategories();
         this.getPlayList();
     },
 };

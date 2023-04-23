@@ -1,9 +1,9 @@
 <template>
     <div
-        id="podcastItem"
-        class="snap-center min-w-full bg-blue-50 bg-opacity-80 border border-gray-50 flex flex-col rounded-md shadow-sm overflow-hidden sm:min-w-[48%] md:min-w-[33%] lg:min-w-[23%]"
+        id="Item"
+        class="snap-center bg-blue-50 bg-opacity-80 border border-gray-50 flex flex-col rounded-md shadow-sm overflow-hidden sm:min-w-[18%] md:min-w-[13%] lg:min-w-[5%]"
     >
-        <div class="w-full h-full md:h-44 p-1">
+        <div class="w-full h-full sm:h-44 p-1">
             <img
                 class="w-full h-full rounded hover:ring-1 ring-orange-200 bg-gray-700 object-fit"
                 :src="podcast.cover"

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePodcastRequest;
 use App\Http\Resources\V1\PodcastCollection;
 use App\Http\Resources\V1\PodcastResource;
+use App\Models\Category;
 use App\Models\Podcast;
 use Illuminate\Http\Request;
 
@@ -37,5 +38,8 @@ class PodcastController extends Controller
         $podcast->update($request->validated());
         return response()->json(["updated" => true, "message" => "Podcast Updated Successfully"]);
 
+    }
+    public function categories(){
+        return response()->json(Category::all());
     }
 }

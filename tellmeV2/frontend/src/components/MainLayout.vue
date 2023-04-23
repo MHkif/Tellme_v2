@@ -158,7 +158,8 @@ export default {
                     Swal.fire({
                         title: "Your session has expired",
                         text: "Please log in again to continue using the app .",
-                        confirmButtonText: "Login",
+                        confirmButtonText: "login",
+                        confirmButtonColor: "#FF4D00",
                     }).then((result) => {
                         /* Read more about isConfirmed, isDenied below */
                         if (result.isConfirmed) {
@@ -166,6 +167,9 @@ export default {
                             this.$router.push("/login");
                         } else if (result.isDenied) {
                             window.relaod();
+                        } else if (result.isDismissed) {
+                            window.relaod();
+                            alert();
                         }
                     });
                 }
