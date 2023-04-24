@@ -96,7 +96,7 @@
                                                 ? 'border-gray-200'
                                                 : 'border-red-600  '
                                         "
-                                        class="block w-full mt-2 text-gray-600 placeholder-gray-400 bg-white border  rounded focus:border-orange-300 focus:outline-none focus:ring-1 focus:ring-orange-300 focus:ring-opacity-40"
+                                        class="block w-full mt-2 text-gray-600 placeholder-gray-400 bg-white border rounded focus:border-orange-300 focus:outline-none focus:ring-1 focus:ring-orange-300 focus:ring-opacity-40"
                                         aria-placeholder="category"
                                         placeholder="Category"
                                         aria-label="select a category"
@@ -257,30 +257,29 @@
         </div>
 
         <!-- End Modal -->
-<div v-if="podcasts.length">
-    
-    <div class="flex justify-between items-center">
-            <h3 class="text-xl font-medium">{{ title }} {{ route }}</h3>
-            <Button
-                v-show="route === 'profile'"
-                @click="this.modelOpen = true"
-                class="flex justify-center rounded bg-gray-900 px-4 py-2 text-md font-semibold text-orange-600 border border-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+        <div v-if="podcasts.length">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-medium">{{ title }} {{ route }}</h3>
+                <Button
+                    v-show="route === 'profile'"
+                    @click="this.modelOpen = true"
+                    class="flex justify-center rounded bg-gray-900 px-4 py-2 text-md font-semibold text-orange-600 border border-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                >
+                    Create Podcast
+                </Button>
+            </div>
+            <div
+                class="grid grid-cols sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xxl:grid-cols-5 gap-6"
             >
-                Create Podcast
-            </Button>
+                <CardPodcast
+                    v-for="podcast in podcasts"
+                    :key="podcast.id"
+                    :podcast="podcast"
+                />
+            </div>
         </div>
-        <div
-            class="grid grid-cols sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xxl:grid-cols-5 gap-6"
-        >
-            <CardPodcast
-                v-for="podcast in podcasts"
-                :key="podcast.id"
-                :podcast="podcast"
-            />
-        </div>
-</div>
 
-<section
+        <section
             v-else
             class="w-full h-[calc(100vh-8rem)] flex items-center justify-center flex-col gap-4 p-8"
         >
@@ -294,7 +293,6 @@
                 Create Podcast
             </Button>
         </section>
-
     </section>
 </template>
 
@@ -398,8 +396,17 @@ export default {
                 });
         },
         getCategories() {
+            let config = {
+                method: "get",
+                url: "http://127.0.0.1:8000/api/v1/categories",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    Authorization: `Bearer ${this.$store.state.token}`,
+                },
+            };
             axios
-                .get("http://127.0.0.1:8000/api/v1/categories")
+                .request(config)
                 .then((response) => {
                     console.log("Response Categories : ", response.data);
                     if (response.data) {

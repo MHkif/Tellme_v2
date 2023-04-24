@@ -1,6 +1,12 @@
 <template>
-    <div
-        @click="play"
+    <router-link
+    :to="{
+      path: '/podcastPage',
+      query: {
+        id: podcast.id,
+      },
+    }"
+        
         id="podcastItem"
         class="bg-blue-50 bg-opacity-80 border border-gray-50 flex flex-col rounded-md shadow-sm overflow-hidden"
     >
@@ -52,7 +58,7 @@
                 </h3>
             </div>
         </div>
-    </div>
+    </router-link>
 </template>
 
 <script>

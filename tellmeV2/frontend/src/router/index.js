@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import store from "../store";
-import Dashboard from "../views/Dashboard.vue";
+import Dashboard from "../views/admin/Dashboard.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import Home from "../views/Home.vue";
@@ -15,8 +15,9 @@ import AdminLayout from "../components/AdminLayout.vue";
 import AuthLayout from "../components/AuthLayout.vue";
 import MainLayout from "../components/MainLayout.vue";
 import Speakers from "../views/Speakers.vue";
-import PodcastPanel from "../views/admin/podcastPanel.vue"
+import PodcastPanel from "../views/admin/podcastPanel.vue";
 import Settings from "../views/Settings.vue";
+import PodcastPage from "../views/PodcastPage.vue";
 
 const routes = [
     {
@@ -26,7 +27,11 @@ const routes = [
         meta: { requiresAuth: true },
         children: [
             { path: "/dashboard", name: "Dashboard", component: Dashboard },
-            { path: "/podcastPanel", name: "PodcastPanel", component: PodcastPanel },
+            {
+                path: "/podcastPanel",
+                name: "PodcastPanel",
+                component: PodcastPanel,
+            },
         ],
     },
 
@@ -69,15 +74,21 @@ const routes = [
                 name: "discover",
                 component: Discover,
             },
-            {
-                path: "/streams",
-                name: "streams",
-                component: Streams,
-            },
+
             {
                 path: "/podcasts",
                 name: "podcasts",
                 component: Podcasts,
+            },
+            {
+                path: "/podcastPage",
+                name: "podsactPage",
+                component: PodcastPage,
+            },
+            {
+                path: "/streams",
+                name: "streams",
+                component: Streams,
             },
             {
                 path: "/streamRoom",
