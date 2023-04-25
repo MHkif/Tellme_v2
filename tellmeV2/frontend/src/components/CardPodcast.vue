@@ -61,8 +61,8 @@ export default {
     props: ["podcast"],
     methods: {
         play() {
-            this.$store.commit("setPlay");
-            this.$store.commit("setPodcasts", this.podcast);
+            this.$store.commit("setAudio");
+            this.$store.commit("setPodcast", this.podcast);
             // alert(this.podcast);
         },
     },

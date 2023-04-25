@@ -32,7 +32,7 @@
                     </router-link>
                 </li>
 
-                <ul class="mt-5 space-y-1 tracking-wide text-orange-50">
+                <ul class="mt-2  space-y-1 tracking-wide text-orange-50">
                     <li class="min-w-max ">
                         <router-link
                             to="/home"

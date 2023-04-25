@@ -96,7 +96,7 @@
                                                 ? 'border-gray-200'
                                                 : 'border-red-600  '
                                         "
-                                        class="block w-full mt-2 text-gray-600 placeholder-gray-400 bg-white border  rounded focus:border-orange-300 focus:outline-none focus:ring-1 focus:ring-orange-300 focus:ring-opacity-40"
+                                        class="block w-full mt-2 text-gray-600 placeholder-gray-400 bg-white border rounded focus:border-orange-300 focus:outline-none focus:ring-1 focus:ring-orange-300 focus:ring-opacity-40"
                                         aria-placeholder="category"
                                         placeholder="Category"
                                         aria-label="select a category"
@@ -255,32 +255,31 @@
                 </div>
             </div>
         </div>
-
         <!-- End Modal -->
-<div v-if="podcasts.length">
-    
-    <div class="flex justify-between items-center">
-            <h3 class="text-xl font-medium">{{ title }} {{ route }}</h3>
-            <Button
-                v-show="route === 'profile'"
-                @click="this.modelOpen = true"
-                class="flex justify-center rounded bg-gray-900 px-4 py-2 text-md font-semibold text-orange-600 border border-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-            >
-                Create Podcast
-            </Button>
-        </div>
-        <div
-            class="grid grid-cols sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xxl:grid-cols-5 gap-6"
-        >
-            <CardPodcast
-                v-for="podcast in podcasts"
-                :key="podcast.id"
-                :podcast="podcast"
-            />
-        </div>
-</div>
 
-<section
+        <div class="w-full flex flex-col gap-6" v-if="podcasts.length">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-medium">{{ title }}</h3>
+                <Button
+                    v-show="route === 'profile'"
+                    @click="this.modelOpen = true"
+                    class="flex justify-center rounded bg-gray-900 px-4 py-2 text-md font-semibold text-orange-600 border border-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                >
+                    Create Podcast
+                </Button>
+            </div>
+            <div
+                class="grid grid-cols sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xxl:grid-cols-5 gap-6"
+            >
+                <CardPodcast
+                    v-for="podcast in podcasts"
+                    :key="podcast.id"
+                    :podcast="podcast"
+                />
+            </div>
+        </div>
+
+        <section
             v-else
             class="w-full h-[calc(100vh-8rem)] flex items-center justify-center flex-col gap-4 p-8"
         >
@@ -294,7 +293,6 @@
                 Create Podcast
             </Button>
         </section>
-
     </section>
 </template>
 
@@ -340,10 +338,10 @@ export default {
     },
     methods: {
         uploadPodcast() {
-            // myWidget.open();
+            myWidget.open();
         },
         uploadCover() {
-            // widget.open();
+            widget.open();
         },
         createPodcast() {
             let config = {
@@ -398,8 +396,17 @@ export default {
                 });
         },
         getCategories() {
+            let config = {
+                method: "get",
+                url: "http://127.0.0.1:8000/api/v1/categories",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    Authorization: `Bearer ${this.$store.state.token}`,
+                },
+            };
             axios
-                .get("http://127.0.0.1:8000/api/v1/categories")
+                .request(config)
                 .then((response) => {
                     console.log("Response Categories : ", response.data);
                     if (response.data) {
@@ -432,72 +439,72 @@ export default {
 };
 const cloudName = "dr2ly0dd5"; // replace with your own cloud name
 
-// const widget = window.cloudinary.createUploadWidget(
-//     {
-//         cloudName: cloudName,
-//         uploadPreset: "vrglkscf",
-//         cropping: true, //add a cropping step
-//         // showAdvancedOptions: true,  //add advanced options (public_id and tag)
-//         // sources: [ "local", "url"], // restrict the upload sources to URL and local files
-//         // multiple: false,  //restrict upload to a single file
-//         folder: "covers", //upload files to the specified folder
-//         // tags: ["users", "profile"], //add the given tags to the uploaded files
-//         // context: {alt: "user_uploaded"}, //add the given context data to the uploaded files
-//         clientAllowedFormats: ["jpg", "png", "jpeg", "gpng"], //restrict uploading to image files only
-//         // maxImageFileSize: 2000000,  //restrict file size to less than 2MB
-//         // maxImageWidth: 2000, //Scales the image down to a width of 2000 pixels before uploading
-//         theme: "orange", //change to a purple theme
-//     },
-//     (error, result) => {
-//         if (!error && result && result.event === "success") {
-//             console.log("Error : ", error);
-//             console.log(result);
-//             console.log("Done! Here is the Cover info: ", result.info.url);
-//             // document
-//             //   .getElementById("uploadedimage")
-//             //   .setAttribute("src", result.info.secure_url);
-//             document.getElementById("cover").value = result.info.secure_url;
-//             // document.getElementById("cover").innerText = result.info.secure_url;
-//             // document.getElementById("cover").innerHTML = result.info.secure_url;
+const widget = window.cloudinary.createUploadWidget(
+    {
+        cloudName: cloudName,
+        uploadPreset: "vrglkscf",
+        cropping: true, //add a cropping step
+        // showAdvancedOptions: true,  //add advanced options (public_id and tag)
+        // sources: [ "local", "url"], // restrict the upload sources to URL and local files
+        // multiple: false,  //restrict upload to a single file
+        folder: "covers", //upload files to the specified folder
+        // tags: ["users", "profile"], //add the given tags to the uploaded files
+        // context: {alt: "user_uploaded"}, //add the given context data to the uploaded files
+        clientAllowedFormats: ["jpg", "png", "jpeg", "gpng"], //restrict uploading to image files only
+        // maxImageFileSize: 2000000,  //restrict file size to less than 2MB
+        // maxImageWidth: 2000, //Scales the image down to a width of 2000 pixels before uploading
+        theme: "orange", //change to a purple theme
+    },
+    (error, result) => {
+        if (!error && result && result.event === "success") {
+            console.log("Error : ", error);
+            console.log(result);
+            console.log("Done! Here is the Cover info: ", result.info.url);
+            // document
+            //   .getElementById("uploadedimage")
+            //   .setAttribute("src", result.info.secure_url);
+            document.getElementById("cover").value = result.info.secure_url;
+            // document.getElementById("cover").innerText = result.info.secure_url;
+            // document.getElementById("cover").innerHTML = result.info.secure_url;
 
-//             // this.data.cover = result.info.secure_url;
-//             // console.log("Cover : ", this.data.cover);
-//             // console.log("Cover : ",this.data.cover)
-//             // .setAttribute("value", result.info.secure_url);
-//         }
-//     }
-// );
+            // this.data.cover = result.info.secure_url;
+            // console.log("Cover : ", this.data.cover);
+            // console.log("Cover : ",this.data.cover)
+            // .setAttribute("value", result.info.secure_url);
+        }
+    }
+);
 
-// const myWidget = window.cloudinary.createUploadWidget(
-//     {
-//         cloudName: cloudName,
-//         uploadPreset: "yd12wypw",
-//         // cropping: true, //add a cropping step
-//         // showAdvancedOptions: true,  //add advanced options (public_id and tag)
-//         // sources: [ "local", "url"], // restrict the upload sources to URL and local files
-//         // multiple: false,  //restrict upload to a single file
-//         folder: "audios", //upload files to the specified folder
-//         // tags: ["users", "profile"], //add the given tags to the uploaded files
-//         // context: {alt: "user_uploaded"}, //add the given context data to the uploaded files
-//         clientAllowedFormats: ["mp3"], //restrict uploading to image files only
-//         // maxImageFileSize: 2000000,  //restrict file size to less than 2MB
-//         // maxImageWidth: 2000, //Scales the image down to a width of 2000 pixels before uploading
-//         theme: "orange", //change to a purple theme
-//     },
-//     (error, result) => {
-//         if (!error && result && result.event === "success") {
-//             localStorage.setItem("podcast", result.info.url);
+const myWidget = window.cloudinary.createUploadWidget(
+    {
+        cloudName: cloudName,
+        uploadPreset: "yd12wypw",
+        // cropping: true, //add a cropping step
+        // showAdvancedOptions: true,  //add advanced options (public_id and tag)
+        // sources: [ "local", "url"], // restrict the upload sources to URL and local files
+        // multiple: false,  //restrict upload to a single file
+        folder: "audios", //upload files to the specified folder
+        // tags: ["users", "profile"], //add the given tags to the uploaded files
+        // context: {alt: "user_uploaded"}, //add the given context data to the uploaded files
+        clientAllowedFormats: ["mp3"], //restrict uploading to image files only
+        // maxImageFileSize: 2000000,  //restrict file size to less than 2MB
+        // maxImageWidth: 2000, //Scales the image down to a width of 2000 pixels before uploading
+        theme: "orange", //change to a purple theme
+    },
+    (error, result) => {
+        if (!error && result && result.event === "success") {
+            localStorage.setItem("podcast", result.info.url);
 
-//             console.log(result.info.format);
-//             console.log("Done! Here is the podcast info: ", result.info.url);
-//             // document
-//             //   .getElementById("uploadedAudio")
-//             //   .setAttribute("src", result.info.secure_url);
-//             // this.data.url = result.info.secure_url;
-//             document.getElementById("podcast").innerText =
-//                 result.info.secure_url;
-//             // document.getElementById("podcast").value = result.info.secure_url;
-//         }
-//     }
-// );
+            console.log(result.info.format);
+            console.log("Done! Here is the podcast info: ", result.info.url);
+            // document
+            //   .getElementById("uploadedAudio")
+            //   .setAttribute("src", result.info.secure_url);
+            // this.data.url = result.info.secure_url;
+            document.getElementById("podcast").innerText =
+                result.info.secure_url;
+            // document.getElementById("podcast").value = result.info.secure_url;
+        }
+    }
+);
 </script>

@@ -7,9 +7,12 @@
         <Hero></Hero>
 
         <!--  Podcasts Section -->
-        <ListScroll
-        v-show="podcasts.length"
-        title="Popular Podcasts Episodes">
+        <ListScroll v-show="podcasts.length" title="Latests Podcasts">
+            <SnapPodcast
+                v-for="podcast in podcasts"
+                :key="podcast.id"
+                :podcast="podcast"
+            />
             <SnapPodcast
                 v-for="podcast in podcasts"
                 :key="podcast.id"
@@ -18,8 +21,8 @@
         </ListScroll>
         <!-- End  Podcasts Section -->
 
-        <!--  Playlist Section -->
-        <ListScroll
+        <!-- Playlist Section -->
+        <!-- <ListScroll
         v-if="playlists.length"
         title="Popular Playlists">
             <PlayListCard
@@ -41,7 +44,7 @@
             >
                 Create PlayList
             </Button>
-        </section>
+        </section> -->
         <!-- End  Playlist Section -->
 
         <!--  Podcasts  Section -->
@@ -53,7 +56,7 @@
         </PodcastsGrid>
         <!-- End  Podcasts  Section -->
         <div class="my-16"></div>
-        <AudioPlayer :podcast="podcast" />
+        <AudioPlayer />
     </div>
 </template>
 
