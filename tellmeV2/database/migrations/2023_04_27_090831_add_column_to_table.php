@@ -11,17 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('short_videos', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->string('duration');
-            $table->string('url');
-            $table->foreignId('user_id')
-                ->constrained("users")
+        Schema::table('short_videos', function (Blueprint $table) {
+            $table->foreignId('category_id')
+                ->constrained("categories")
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-                
-            $table->timestamps();
         });
     }
 
@@ -30,6 +24,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('short_videos');
+        Schema::table('short_videos', function (Blueprint $table) {
+            $table->dropForeign('category_id');
+        });
     }
 };

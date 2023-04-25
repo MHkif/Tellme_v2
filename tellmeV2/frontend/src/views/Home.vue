@@ -7,18 +7,14 @@
         <Hero></Hero>
 
         <!--  Podcasts Section -->
-        <ListScroll v-show="podcasts.length" title="Latests Podcasts">
+        <!-- <ListScroll v-show="podcasts.length" title="Latests Podcasts">
             <SnapPodcast
                 v-for="podcast in podcasts"
                 :key="podcast.id"
                 :podcast="podcast"
             />
-            <SnapPodcast
-                v-for="podcast in podcasts"
-                :key="podcast.id"
-                :podcast="podcast"
-            />
-        </ListScroll>
+           
+        </ListScroll> -->
         <!-- End  Podcasts Section -->
 
         <!-- Playlist Section -->

@@ -163,7 +163,6 @@
                                             "
                                             class="w-full text-gray-600 placeholder-gray-400 bg-white border rounded focus:border-orange-300 focus:outline-none focus:ring-1 focus:ring-orange-300 focus:ring-opacity-40"
                                         />
-                                        {{ data.url }}
                                     </div>
                                     <p
                                         v-show="urlError"
@@ -193,7 +192,6 @@
                                                     : 'border-red-600'
                                             "
                                         />
-                                        {{ data.cover }}
                                     </div>
 
                                     <p
@@ -204,43 +202,7 @@
                                         Podcast cover is required
                                     </p>
                                 </div>
-                                <div>
-                                    <label
-                                        for="playlist"
-                                        class="block text-sm text-gray-700 capitalize dark:text-gray-200"
-                                        >Playlist
-                                        <span class="text-xs"
-                                            >(optional)</span
-                                        ></label
-                                    >
-                                    <select
-                                        v-model="data.playlist"
-                                        id="playlist"
-                                        :class="
-                                            !playListError
-                                                ? 'border-gray-200'
-                                                : 'border-red-600'
-                                        "
-                                        class="block w-full mt-2 text-gray-600 placeholder-gray-400 bg-white border rounded focus:border-orange-300 focus:outline-none focus:ring-1 focus:ring-orange-300 focus:ring-opacity-40"
-                                        aria-placeholder="playlist"
-                                        aria-label="select a playlist"
-                                    >
-                                        <option
-                                            v-for="playlist in playlists"
-                                            :key="playlist.id"
-                                            :value="playlist.id"
-                                        >
-                                            {{ playlist.name }}
-                                        </option>
-                                    </select>
-                                    <p
-                                        v-show="playListError"
-                                        id="playlistErr"
-                                        class="mt-1 text-xs text-red-500"
-                                    >
-                                        {{ playListError }}
-                                    </p>
-                                </div>
+
                                 <div class="flex justify-end mt-3">
                                     <button
                                         type="submit"
@@ -315,8 +277,11 @@ export default {
                 title: "",
                 description: "",
                 category_id: "",
-                url: "",
-                cover: "",
+                url: localStorage.getItem("podcastUrl"),
+                cover: localStorage.getItem("coverUrl"),
+                //     this.data.url = localStorage.getItem("podcastUrl");
+                // this.data.cover = localStorage.getItem("coverUrl");
+                // console.log("Data  : ", this.data);
                 duration: "20",
             },
             error: "",
@@ -343,7 +308,14 @@ export default {
         uploadCover() {
             widget.open();
         },
+        removeItems() {
+            localStorage.removeItem("coverUrl");
+            localStorage.removeItem("podcastUrl");
+        },
         createPodcast() {
+            // this.data.url = localStorage.getItem("podcastUrl");
+            // this.data.cover = localStorage.getItem("coverUrl");
+            console.log("Data  : ", this.data);
             let config = {
                 method: "post",
                 maxBodyLength: Infinity,
@@ -360,12 +332,13 @@ export default {
                 .then((response) => {
                     console.log("Response Data : ", response.data);
                     if (response.data.created === true) {
+                        this.removeItems();
                         location.reload();
                     }
                 })
                 .catch((error) => {
                     console.log("Error :", error.response);
-
+                    this.removeItems();
                     if (error.response.data.errors.url) {
                         this.urlError = error.response.data.errors.url[0];
                     } else {
@@ -464,6 +437,7 @@ const widget = window.cloudinary.createUploadWidget(
             //   .getElementById("uploadedimage")
             //   .setAttribute("src", result.info.secure_url);
             document.getElementById("cover").value = result.info.secure_url;
+            localStorage.setItem("coverUrl", result.info.secure_url);
             // document.getElementById("cover").innerText = result.info.secure_url;
             // document.getElementById("cover").innerHTML = result.info.secure_url;
 
@@ -493,7 +467,8 @@ const myWidget = window.cloudinary.createUploadWidget(
     },
     (error, result) => {
         if (!error && result && result.event === "success") {
-            localStorage.setItem("podcast", result.info.url);
+            // localStorage.setItem("podcast", result.info.url);
+            localStorage.setItem("podcastUrl", result.info.secure_url);
 
             console.log(result.info.format);
             console.log("Done! Here is the podcast info: ", result.info.url);
@@ -501,8 +476,7 @@ const myWidget = window.cloudinary.createUploadWidget(
             //   .getElementById("uploadedAudio")
             //   .setAttribute("src", result.info.secure_url);
             // this.data.url = result.info.secure_url;
-            document.getElementById("podcast").innerText =
-                result.info.secure_url;
+            document.getElementById("podcast").value = result.info.secure_url;
             // document.getElementById("podcast").value = result.info.secure_url;
         }
     }

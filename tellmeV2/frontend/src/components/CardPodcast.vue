@@ -2,7 +2,7 @@
     <div
         @click="play"
         id="podcastItem"
-        class="bg-blue-50 bg-opacity-80 border border-gray-50 flex flex-col rounded-md shadow-sm overflow-hidden"
+        class="bg-gray-100 bg-opacity-80 border border-gray-50 flex flex-col rounded-md shadow-sm overflow-hidden"
     >
         <div class="w-full h-full md:h-44 overflow-hidden p-1">
             <img
@@ -12,14 +12,14 @@
             />
         </div>
 
-        <div class="w-full flex flex-col gap-3 px-3 py-3">
+        <div class="w-full flex flex-col  gap-3 px-3 py-3">
             <div class="w-full flex items-start justify-between">
                 <h3
-                    class="customTitle text-gray-800 font-bold text-sm sm:text-md"
+                    class="customTitle text-gray-900 font-bold text-sm sm:text-md"
                 >
                     {{ podcast.title }}
                 </h3>
-                <button class="text-white">
+                <!-- <button class="text-white">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -34,7 +34,7 @@
                             d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
                         />
                     </svg>
-                </button>
+                </button> -->
             </div>
             <div class="w-full flex items-center justify-between">
                 <div class="flex items-center gap-2 overflow-hidden">
