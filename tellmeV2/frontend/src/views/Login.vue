@@ -141,7 +141,7 @@ export default {
                     this.$store.commit("setUser", response.data.user);
 
                     console.log("Token : ", response.data);
-                    this.$router.push("/");
+                    this.$router.push("/home");
                 })
                 .catch((error) => {
                     console.log("Error : ", error);
@@ -170,7 +170,7 @@ export default {
                 })
                 .then((res) => {
                     this.loading = false;
-                    this.$router.push("/");
+                    this.$router.push("/home");
                 })
                 .catch((err) => {
                     this.loading = false;

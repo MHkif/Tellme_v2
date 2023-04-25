@@ -16,7 +16,7 @@
                         <div class="flex w-full items-center  space-x-4">
                             <div class="flex items-center justify-center">
                                 <img
-
+                              
                                     class="w-10 h-10  rounded-full border-2 border-orange-600"
                                     src="../assets/italo.jpg"
                                     alt=""
