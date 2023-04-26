@@ -62,7 +62,6 @@ class NotificationController extends Controller
                     'success' => true,
                     'unreadNotifications' => $user->unreadNotifications,
                     'latest_unreadNotification' =>  $user->unreadNotifications[0],
-                    'status' => $user->unreadNotifications[0]->data['status'],
                     'length' => count($user->unreadNotifications),
 
                 ]);

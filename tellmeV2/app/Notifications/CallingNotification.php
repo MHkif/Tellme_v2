@@ -44,7 +44,6 @@ class CallingNotification extends Notification implements ShouldBroadcast
             'sender' => $this->sender,
             'receiver' => $this->receiver,
             'room' => $this->room,
-            'status' => "calling"
         ];
     }
 
@@ -55,7 +54,6 @@ class CallingNotification extends Notification implements ShouldBroadcast
                 "sender" => $this->sender,
                 "receiver" => $this->receiver,
                 "room" => $this->room,
-                'status' => "calling"
             ]
         ];
         return new BroadcastMessage([

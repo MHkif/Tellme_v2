@@ -11,7 +11,7 @@
                 class="flex items-end justify-center min-h-screen px-4 text-center md:items-center sm:block sm:p-0"
             >
                 <div
-                    @click="this.modelOpen = false"
+                    @click="decline"
                     v-show="this.modelOpen"
                     class="fixed h-screen w-full inset-0 flex items-center transition-opacity blur-sm backdrop-blur-sm bg-gray/10"
                     aria-hidden="true"
@@ -47,10 +47,10 @@
 
                     <div>
                         <div
-                            class="max-h-56 p-5 flex flex-col gap-2 overflow-y-auto"
+                            class="max-h-56  p-5 flex flex-col gap-2 overflow-y-auto"
                         >
                             <div
-                                class="flex items-center justify-between py-3 rounded w-full"
+                                class="flex  flex-col items-center justify-between py-3 rounded w-full sm:flex-row"
                             >
                                 <div class="flex gap-3 items-center">
                                     <div
@@ -58,12 +58,12 @@
                                     >
                                         <img
                                             class="h-full w-full object-fit"
-                                            src="../assets/jordan.jpg"
+                                            :src="caller.avatar"
                                             alt=""
                                         />
                                     </div>
                                     <h3 class="font-medium">
-                                        Frank Loyal is Calling ...
+                                     {{ caller.first_name }}   {{ caller.last_name }} is Calling ...
                                     </h3>
                                 </div>
                                 <div class="flex items-center gap-6">
@@ -85,6 +85,7 @@
                                     </button>
                                     <button
                                         class="p-2 rounded-full bg-green-500"
+                                        @click="answer"
                                     >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -136,14 +137,16 @@ export default {
             modelOpen: false,
             notif_id: null,
             room_id: null,
+            caller : {}
         };
     },
     methods: {
+     
         answer() {
             let config = {
                 method: "post",
                 maxBodyLength: Infinity,
-                url: "http://127.0.0.1:8000/api/v1/unreadNotification",
+                url: "http://127.0.0.1:8000/api/v1/answerCall",
                 data: {
                     id: this.$store.state.user.id,
                     notificationId: this.notif_id,
@@ -159,16 +162,53 @@ export default {
                 .then((res) => {
                     console.log("Answer Response :", res.data);
 
-                    // if (res.data.success) {
-                    //     this.notif_id = res.data.latest_unreadNotification.id;
-                    //     this.modelOpen = true;
-                    // } else {
-                    //     this.notif_id = null;
-                    //     this.modelOpen = false;
-                    // }
+                    if (res.data.success) {
+                        // console.log("Answer Response :", res.data.latest_unreadNotification.id);
+                        // this.notif_id = res.data.latest_unreadNotification.id;
+                        this.modelOpen = false;
+                        this.$router.push({ path: 'meeting', query: { room: this.room_id } })
+                    } else {
+                        this.notif_id = null;
+                        this.room_id = null;
+                        this.modelOpen = false;
+                        this.caller = null
+                    }
                 })
                 .catch((err) => {
                     console.log("Notifications error : ", err);
+                });
+        },
+        decline() {
+            let config = {
+                method: "post",
+                maxBodyLength: Infinity,
+                url: "http://127.0.0.1:8000/api/v1/answerCall",
+                data: {
+                    id: this.$store.state.user.id,
+                    notificationId: this.notif_id,
+                },
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    Authorization: `Bearer ${this.$store.state.token}`,
+                },
+            };
+            axios
+                .request(config)
+                .then((res) => {
+                    console.log("decline Response :", res.data);
+
+                    if (res.data.success) {
+                        // console.log("Answer Response :", res.data.latest_unreadNotification.id);
+                        // this.notif_id = res.data.latest_unreadNotification.id;
+                        this.modelOpen = false;
+                        this.notif_id = null;
+                        this.room_id = null;
+                        this.caller = {}
+                    }
+                })
+                .catch((err) => {
+                    console.log("decline error : ", err);
                 });
         },
         receiveCalls() {
@@ -187,19 +227,19 @@ export default {
                 .request(config)
                 .then((res) => {
                     console.log("Notifications Response :", res.data);
-                    console.log(
-                        "Room_id :",
-                        res.data.latest_unreadNotification.data.room.id
-                    );
+                    
 
                     if (res.data.success) {
                         this.notif_id = res.data.latest_unreadNotification.id;
-                        this.modelOpen = true;
                         this.room_id =
-                            res.data.latest_unreadNotification.data.room.id;
+                        res.data.latest_unreadNotification.data.room.id;
+                        this.caller =    res.data.latest_unreadNotification.data.sender
+                        this.modelOpen = true;
                     } else {
-                        this.notif_id = null;
                         this.modelOpen = false;
+                        this.notif_id = null;
+                        this.room_id = null;
+                        this.caller = {};
                     }
                 })
                 .catch((err) => {

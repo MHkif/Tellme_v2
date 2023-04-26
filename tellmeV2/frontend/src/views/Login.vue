@@ -141,11 +141,7 @@ export default {
                     this.$store.commit("setUser", response.data.user);
 
                     console.log("Token : ", response.data);
-<<<<<<< HEAD
                     this.$router.push("/home");
-=======
-                    location.reload();
->>>>>>> fad2cd8e7511e7825188c6da20db5f7cdf3901db
                 })
                 .catch((error) => {
                     console.log("Error : ", error);
@@ -172,16 +168,12 @@ export default {
                 })
                 .then((res) => {
                     this.loading = false;
-<<<<<<< HEAD
-                    this.$router.push("/home");
-=======
                     location.reload();
->>>>>>> fad2cd8e7511e7825188c6da20db5f7cdf3901db
                 })
                 .catch((err) => {
                     this.loading = false;
                     this.$store.commit("clearToken");
-                    this.$router.push("/login");
+                    this.$router.push("/home");
                 });
         }
     },

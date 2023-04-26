@@ -23,6 +23,10 @@ return new class extends Migration
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
             $table->integer('is_saved')->default(0);
+            $table->foreignId("room_id")
+            ->constrained("rooms")
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -27,7 +27,7 @@ class RoomController extends Controller
             broadcast(new NewCall($sender, $receiver, $room));
         }
 
-        return response()->json(['success']);
+        return response()->json(['success'=>true , "receiver" => $receiver, "room"=> $room]);
     }
 
     

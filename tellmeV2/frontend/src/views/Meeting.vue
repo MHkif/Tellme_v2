@@ -139,7 +139,7 @@
             >
                 Meeting
             </h3>
-
+<h2 class="text-white font-bold "> Room  : {{ room_id }}</h2>
             <button
                 @click="joinStreamInit"
                 class="flex justify-center rounded bg-gray-900 px-4 py-2 text-md font-semibold text-orange-600 border border-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
@@ -374,7 +374,7 @@
                 <p
                     class="leading-8 text-2xl text-white leading-relaxed font-medium md:text-4xl"
                 >
-                    Make The Universe Closer
+                    Make The Universe Closer 
                 </p>
                 <p
                     class="leading-8 text-2xl text-white leading-relaxed font-medium md:text-4xl"
@@ -426,6 +426,7 @@ export default {
             filteredUsers: "",
             isSearching: false,
             users: [],
+            room_id: null
         };
     },
     watch: {
@@ -463,15 +464,33 @@ export default {
     },
     methods: {
         callUser(id) {
-            axios
-                .post("http://127.0.0.1:8000/api/v1/callUser", {
+            let config = {
+                method: "post",
+                maxBodyLength: Infinity,
+                url: "http://127.0.0.1:8000/api/v1/callUser",
+                data: {
                     sender: this.$store.state.user.id,
                     receiver: id,
-                })
+                },
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    Authorization: `Bearer ${this.$store.state.token}`,
+                },
+            };
+            axios
+                .request(config)
                 .then((res) => {
                     console.log("Calling : ", res.data);
+                    console.log("Room_Id : ", res.data.room.id);
+                    this.modelOpen = false;
+                    this.calling = true;
+                    this.room_id = res.data.room.id
+                    this.joinStreamInit(this.room_id)
                 })
-                .catch((err) => {});
+                .catch((err) => {
+                    console.log("Error : ", err);
+                });
         },
         async joinStreamInit() {
             if (!this.calling) {
@@ -483,7 +502,7 @@ export default {
                 mode: "rtc",
                 codec: "vp8",
             });
-            await this.client.join(this.APP_ID, "1", null, this.uid);
+            await this.client.join(this.APP_ID, this.room_id ?"room"+ this.room_id :"1", null, this.uid);
 
             this.client.on("user-published", this.handeleUserPublished);
             this.client.on("user-left", this.handleUserLeft);
@@ -536,7 +555,6 @@ export default {
         },
 
         async handeleUserPublished(user, mediaType) {
-            console.log("New User");
             this.remoteUsers[user.uid] = user;
             await this.client.subscribe(user, mediaType);
 
@@ -687,6 +705,14 @@ export default {
         },
     },
     mounted() {
+        if(this.$route.query.room != null){
+            this.room_id = this.$route.query.room;
+            this.calling = true
+            this.joinStreamInit()
+        }else{
+            this.room_id = null;
+            this.calling = false
+        }
         // this.joinStreamInit();
         // if (this.$store.state.token !== "" && this.$store.state.uid !== "") {
         //     this.uid = this.$store.state.uid;

@@ -39,7 +39,7 @@ class NewCall implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('newCall.' . $this->receiver->id),
+            new PrivateChannel('newCall.' . $this->room->id),
         ];
     }
 }

@@ -34,7 +34,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('calling', [NotificationController::class, 'notifyUser']);
     Route::post('callUser', [RoomController::class, 'callUser']);
     Route::post('unreadNotification', [NotificationController::class, 'notifications']);
-    Route::post('ansewerCall', [NotificationController::class, 'markAsRead']);
+    Route::post('answerCall', [NotificationController::class, 'markAsRead']);
 
 
     // Profile
