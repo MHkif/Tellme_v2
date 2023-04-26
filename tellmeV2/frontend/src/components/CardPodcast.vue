@@ -1,12 +1,6 @@
 <template>
-    <router-link
-    :to="{
-      path: '/podcastPage',
-      query: {
-        id: podcast.id,
-      },
-    }"
-        
+    <div
+        @click="play"
         id="podcastItem"
         class="bg-blue-50 bg-opacity-80 border border-gray-50 flex flex-col rounded-md shadow-sm overflow-hidden"
     >
@@ -58,7 +52,7 @@
                 </h3>
             </div>
         </div>
-    </router-link>
+    </div>
 </template>
 
 <script>
@@ -67,8 +61,8 @@ export default {
     props: ["podcast"],
     methods: {
         play() {
-            this.$store.commit("setPlay");
-            this.$store.commit("setPodcasts", this.podcast);
+            this.$store.commit("setAudio");
+            this.$store.commit("setPodcast", this.podcast);
             // alert(this.podcast);
         },
     },

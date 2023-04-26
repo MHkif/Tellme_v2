@@ -60,20 +60,20 @@
                             type="password"
                             autocomplete="current-password"
                             :class="
-                                    !passwordErr
-                                        ? 'border-orange-500'
-                                        : 'border-red-600  ring-none'
-                                "
-                                class="relative block w-full rounded-md border py-2.5 text-gray-900 ring-1 ring-outset ring-orange-600 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-orange-600 foucus:border-orange-400 sm:text-sm sm:leading-6"
-                                placeholder="Password"
-                            />
-                            <p
-                                v-show="passwordErr"
-                                id="password_Error"
-                                class="mt-1 text-xs text-red-500"
-                            >
-                                {{ passwordErr }}
-                            </p>
+                                !passwordErr
+                                    ? 'border-orange-500'
+                                    : 'border-red-600  ring-none'
+                            "
+                            class="relative block w-full rounded-md border py-2.5 text-gray-900 ring-1 ring-outset ring-orange-600 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-orange-600 foucus:border-orange-400 sm:text-sm sm:leading-6"
+                            placeholder="Password"
+                        />
+                        <p
+                            v-show="passwordErr"
+                            id="password_Error"
+                            class="mt-1 text-xs text-red-500"
+                        >
+                            {{ passwordErr }}
+                        </p>
                     </div>
                 </div>
 
@@ -125,8 +125,8 @@ export default {
                 email: "",
                 password: "",
             },
-            emailErr:"",
-            passwordErr:"",
+            emailErr: "",
+            passwordErr: "",
             loading: true,
         };
     },
@@ -141,19 +141,17 @@ export default {
                     this.$store.commit("setUser", response.data.user);
 
                     console.log("Token : ", response.data);
-                    this.$router.push("/");
+                    location.reload();
                 })
                 .catch((error) => {
                     console.log("Error : ", error);
                     if (error.response.data.email) {
-                        this.emailErr =
-                            error.response.data.email[0];
+                        this.emailErr = error.response.data.email[0];
                     } else {
                         this.emailErr = "";
                     }
                     if (error.response.data.password) {
-                        this.passwordErr =
-                            error.response.data.password[0];
+                        this.passwordErr = error.response.data.password[0];
                     } else {
                         this.passwordErr = "";
                     }
@@ -170,7 +168,7 @@ export default {
                 })
                 .then((res) => {
                     this.loading = false;
-                    this.$router.push("/");
+                    location.reload();
                 })
                 .catch((err) => {
                     this.loading = false;
