@@ -134,9 +134,43 @@ export default {
     data() {
         return {
             modelOpen: false,
+            notif_id: null,
+            room_id: null,
         };
     },
     methods: {
+        answer() {
+            let config = {
+                method: "post",
+                maxBodyLength: Infinity,
+                url: "http://127.0.0.1:8000/api/v1/unreadNotification",
+                data: {
+                    id: this.$store.state.user.id,
+                    notificationId: this.notif_id,
+                },
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    Authorization: `Bearer ${this.$store.state.token}`,
+                },
+            };
+            axios
+                .request(config)
+                .then((res) => {
+                    console.log("Answer Response :", res.data);
+
+                    // if (res.data.success) {
+                    //     this.notif_id = res.data.latest_unreadNotification.id;
+                    //     this.modelOpen = true;
+                    // } else {
+                    //     this.notif_id = null;
+                    //     this.modelOpen = false;
+                    // }
+                })
+                .catch((err) => {
+                    console.log("Notifications error : ", err);
+                });
+        },
         receiveCalls() {
             let config = {
                 method: "post",
@@ -153,9 +187,18 @@ export default {
                 .request(config)
                 .then((res) => {
                     console.log("Notifications Response :", res.data);
+                    console.log(
+                        "Room_id :",
+                        res.data.latest_unreadNotification.data.room.id
+                    );
+
                     if (res.data.success) {
+                        this.notif_id = res.data.latest_unreadNotification.id;
                         this.modelOpen = true;
+                        this.room_id =
+                            res.data.latest_unreadNotification.data.room.id;
                     } else {
+                        this.notif_id = null;
                         this.modelOpen = false;
                     }
                 })

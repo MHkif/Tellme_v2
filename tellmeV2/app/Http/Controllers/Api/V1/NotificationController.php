@@ -61,9 +61,9 @@ class NotificationController extends Controller
                 return response()->json([
                     'success' => true,
                     'unreadNotifications' => $user->unreadNotifications,
-                    // 'latest_unreadNotification' =>  $user->unreadNotifications[0],
-                    // 'status' => $user->unreadNotifications[0]->data['status'],
-                    // 'length' => count($user->unreadNotifications),
+                    'latest_unreadNotification' =>  $user->unreadNotifications[0],
+                    'status' => $user->unreadNotifications[0]->data['status'],
+                    'length' => count($user->unreadNotifications),
 
                 ]);
             } else {
