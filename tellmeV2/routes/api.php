@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\PlaylistContoller;
 use App\Http\Controllers\Api\V1\PodcastController;
 use App\Http\Controllers\Api\V1\NotificationController;
+use App\Http\Controllers\Api\V1\VideosContoller;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,7 @@ use App\Http\Controllers\Api\V1\NotificationController;
 Route::group(['prefix' => 'v1'], function () {
     Route::apiResource('podcasts', PodcastController::class);
     Route::apiResource('playlists', PlaylistContoller::class);
+    Route::apiResource('shortvideos', VideosContoller::class);
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'register']);
     Route::post('checkToken', [AuthController::class, 'checkToken']);
@@ -32,6 +34,8 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('calling', [NotificationController::class, 'notifyUser']);
     Route::post('callUser', [RoomController::class, 'callUser']);
     Route::post('unreadNotification', [NotificationController::class, 'notifications']);
+    Route::post('ansewerCall', [NotificationController::class, 'markAsRead']);
+
 
     // Profile
     Route::post('mypodcasts', [UserController::class, 'mypodcasts']);

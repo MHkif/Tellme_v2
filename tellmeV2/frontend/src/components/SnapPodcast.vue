@@ -1,7 +1,7 @@
 <template>
     <div
         id="Item"
-        class="snap-start w-full bg-blue-50 bg-opacity-80 border border-gray-50 flex flex-col rounded-md shadow-sm overflow-hidden sm:w-[50%] md:w-[31%] lg:w-[23%]"
+        class="snap-start w-full bg-blue-50 bg-opacity-80 border border-gray-50 flex flex-col rounded-md shadow-sm overflow-hidden sm:w-[50%] md:w-[31%] lg:w-[25%]"
     >
         <div class="w-full h-full sm:h-44 p-1">
             <img

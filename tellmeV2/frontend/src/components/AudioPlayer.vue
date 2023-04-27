@@ -1,6 +1,6 @@
 <template>
     <footer
-        :class="this.$store.state.audio ? '' : 'hidden'"
+        v-show="this.$store.state.audio"
         id="AudioPlayer"
         class="fixed flex flex-col items-center justify-between bottom-0 w-[calc(100%-3.35rem)] z-50 h-[80px] bg-[#181818] border-t border-t-[#272727] sm:flex-row"
         style="background-color: #252525"
@@ -26,7 +26,7 @@
             <div class="flex items-center ml-4">
                 <img
                     class="hidden rounded shadow-2xl md:block h-14 w-14"
-                    src="../assets/cover.jpg"
+                    :src="podcast.cover"
                 />
                 <div class="ml-4 w-[60%] overflow-hidden">
                     <div
@@ -118,41 +118,41 @@ let isTrackTimeTotal = ref(null);
 let seeker = ref(null);
 let seekerContainer = ref(null);
 let range = ref(0);
-onMounted(() => {
-    if (audio.value) {
-        setTimeout(() => {
-            timeupdate();
-            loadmetadata();
-        }, 300);
-    }
+// onMounted(() => {
+//     if (audio.value) {
+//         setTimeout(() => {
+//             timeupdate();
+//             loadmetadata();
+//         }, 300);
+//     }
 
-    if (this.store.value) {
-        seeker.value.addEventListener("change", function () {
-            const time = audio.value.duration * (seeker.value.value / 100);
-            audio.value.currentTime = time;
-        });
+//     if (this.store.value) {
+//         seeker.value.addEventListener("change", function () {
+//             const time = audio.value.duration * (seeker.value.value / 100);
+//             audio.value.currentTime = time;
+//         });
 
-        seeker.value.addEventListener("mousedown", function () {
-            audio.value.pause();
-            isPlaying.value = false;
-        });
+//         seeker.value.addEventListener("mousedown", function () {
+//             audio.value.pause();
+//             isPlaying.value = false;
+//         });
 
-        seeker.value.addEventListener("mouseup", function () {
-            audio.value.play();
-            isPlaying.value = true;
-        });
+//         seeker.value.addEventListener("mouseup", function () {
+//             audio.value.play();
+//             isPlaying.value = true;
+//         });
 
-        seekerContainer.value.addEventListener("click", function (e) {
-            const clickPosition =
-                (e.pageX - seekerContainer.value.offsetLeft) /
-                seekerContainer.value.offsetWidth;
-            const time = audio.value.duration * clickPosition;
-            audio.value.currentTime = time;
-            seeker.value.value =
-                (100 / audio.value.duration) * audio.value.currentTime;
-        });
-    }
-});
+//         seekerContainer.value.addEventListener("click", function (e) {
+//             const clickPosition =
+//                 (e.pageX - seekerContainer.value.offsetLeft) /
+//                 seekerContainer.value.offsetWidth;
+//             const time = audio.value.duration * clickPosition;
+//             audio.value.currentTime = time;
+//             seeker.value.value =
+//                 (100 / audio.value.duration) * audio.value.currentTime;
+//         });
+//     }
+// });
 
 export default {
     name: "AudioPlayer",
@@ -169,7 +169,7 @@ export default {
             duration: "",
             endDuration: "",
             index: 0,
-            podcast: ref(null),
+            podcast: ref({}),
             player: ref(new Audio()),
         };
     },
@@ -180,11 +180,7 @@ export default {
         },
 
         loadAudio() {
-            if (JSON.parse(localStorage.getItem("podcast")) !== null) {
-                this.podcast = this.$store.state.currentPodcast;
-                this.player.src = this.podcast.url;
-                this.player.pause();
-            } else {
+            if (this.$store.state.currentPodcast != null) {
                 this.podcast = this.$store.state.currentPodcast;
                 this.player.src = this.podcast.url;
                 setTimeout(() => {
@@ -249,41 +245,37 @@ export default {
     },
 
     mounted() {
-        if (this.player.value) {
-            setTimeout(() => {
-                this.timeupdate();
-                this.loadmetadata();
-            }, 300);
-        }
-
-        if (this.podcast.value) {
-            seeker.value.addEventListener("change", function () {
-                const time =
-                    this.player.value.duration * (seeker.value.value / 100);
-                this.player.value.currentTime = time;
-            });
-
-            seeker.value.addEventListener("mousedown", function () {
-                this.player.value.pause();
-                isPlaying.value = false;
-            });
-
-            seeker.value.addEventListener("mouseup", function () {
-                this.player.value.play();
-                isPlaying.value = true;
-            });
-
-            seekerContainer.value.addEventListener("click", function (e) {
-                const clickPosition =
-                    (e.pageX - seekerContainer.value.offsetLeft) /
-                    seekerContainer.value.offsetWidth;
-                const time = this.player.value.duration * clickPosition;
-                this.player.value.currentTime = time;
-                seeker.value.value =
-                    (100 / this.player.value.duration) *
-                    this.player.value.currentTime;
-            });
-        }
+        // if (this.player.value) {
+        //     setTimeout(() => {
+        //         this.timeupdate();
+        //         this.loadmetadata();
+        //     }, 300);
+        // }
+        // if (this.podcast.value) {
+        //     seeker.value.addEventListener("change", function () {
+        //         const time =
+        //             this.player.value.duration * (seeker.value.value / 100);
+        //         this.player.value.currentTime = time;
+        //     });
+        //     seeker.value.addEventListener("mousedown", function () {
+        //         this.player.value.pause();
+        //         isPlaying.value = false;
+        //     });
+        //     seeker.value.addEventListener("mouseup", function () {
+        //         this.player.value.play();
+        //         isPlaying.value = true;
+        //     });
+        //     seekerContainer.value.addEventListener("click", function (e) {
+        //         const clickPosition =
+        //             (e.pageX - seekerContainer.value.offsetLeft) /
+        //             seekerContainer.value.offsetWidth;
+        //         const time = this.player.value.duration * clickPosition;
+        //         this.player.value.currentTime = time;
+        //         seeker.value.value =
+        //             (100 / this.player.value.duration) *
+        //             this.player.value.currentTime;
+        //     });
+        // }
     },
 
     created() {

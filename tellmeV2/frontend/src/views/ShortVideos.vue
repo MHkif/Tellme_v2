@@ -4,10 +4,7 @@
         <!-- <NavBar /> -->
         <!-- End Navbar -->
         <!-- Modal -->
-        <div
-            v-show="this.saved"
-            class="fixed inset-0 z-50"
-        >
+        <div v-show="this.modelOpen" class="fixed inset-0 z-50">
             <div
                 class="flex items-end justify-center min-h-screen px-4 text-center md:items-center sm:block sm:p-0"
             >
@@ -121,7 +118,7 @@
                                 <div>
                                     <div class="w-full flex gap-4 mt-2">
                                         <div
-                                            @click="uploadVideo"
+                                            @click="upload"
                                             class="w-36 flex items-center justify-center text-sm text-gray-700 capitalize rounded bg-gray-900 px-4 py-1.5 font-meduim text-white hover:text-orange-600 border border-white hover:border-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
                                         >
                                             Video File
@@ -298,6 +295,7 @@
 <script>
 import NavBar from "../components/NavBar.vue";
 import MainLayout from "../components/MainLayout.vue";
+import axios from "axios";
 
 export default {
     components: {
@@ -321,7 +319,7 @@ export default {
                 title: "",
                 category_id: "",
                 url: "",
-                duration: "",
+                duration: "1:20",
             },
             error: "",
             urlError: "",
@@ -349,7 +347,8 @@ export default {
         },
 
         async init() {
-            (this.recorded = false), (this.isRecordeing = true);
+            this.recorded = false;
+            this.isRecording = true;
             document.querySelector("video").innerHTML = null;
 
             await navigator.mediaDevices
@@ -364,7 +363,7 @@ export default {
                 .catch((e) => {
                     console.error("getUserMedia() failed: " + e);
 
-                    this.isRecordeing = false;
+                    this.isRecording = false;
                     // Explain why you need permission and how to update the permission setting
                     // alert("PERMISSION DENIED");
                     // location.reload();
@@ -460,7 +459,10 @@ export default {
             recordedVideo.controls = true;
             this.recorded = true;
         },
+
         save() {
+            this.isRecording = false;
+            this.recorded = false;
             var recordedVideo = document.querySelector("video");
             var downloadAnchor = document.getElementById("download");
             downloadAnchor.href = recordedVideo.src;
@@ -470,8 +472,10 @@ export default {
             recordedVideo.src = null;
             recordedVideo.srcObject = null;
             recordedVideo.controls = false;
-            // this.modelOpen = true;
+            this.modelOpen = true;
             this.saved = true;
+            document.getElementById("minutes").innerHTML = "00";
+            document.getElementById("seconds").innerHTML = "00";
         },
 
         play() {
@@ -496,28 +500,80 @@ export default {
             this.theRecorder.play();
         },
 
-        uploadPodcast() {
-            myWidget.open();
-        },
-        uploadCover() {
+        upload() {
             widget.open();
         },
 
-        // playFunction() {
-        //     var toggle = document.getElementById("playCotroller");
-        //     if (toggle.innerText === "Pause") {
-        //         toggle.innerText = "Play";
-        //         this.pause();
-        //     } else if (toggle.innerText === "Play") {
-        //         toggle.innerText = "Pause";
-        //         this.playVideo();
-        //     } else {
-        //         alert("Somthing wrong");
-        //     }
-        // },
+        createVideo() {
+            let config = {
+                method: "post",
+                maxBodyLength: Infinity,
+                url: "http://127.0.0.1:8000/api/v1/shortvideos",
+                
+                data: this.data,
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    Authorization: `Bearer ${this.$store.state.token}`,
+                },
+            };
+            axios
+                .request(config)
+                .then((response) => {
+                    console.log("Response Data : ", response.data);
+                    if (response.data.created === true) {
+                        location.reload();
+                    }
+                })
+                .catch((error) => {
+                    console.log("Error :", error.response);
+
+                    if (error.response.data.errors.url) {
+                        this.urlError = error.response.data.errors.url[0];
+                    } else {
+                        this.urlError = "";
+                    }
+
+                    if (error.response.data.errors.title) {
+                        this.titleError = error.response.data.errors.title[0];
+                    } else {
+                        this.titleError = "";
+                    }
+
+                    if (error.response.data.errors.category_id) {
+                        this.catyError =
+                            error.response.data.errors.category_id[0];
+                    } else {
+                        this.catyError = "";
+                    }
+                });
+        },
+        getCategories() {
+            let config = {
+                method: "get",
+                url: "http://127.0.0.1:8000/api/v1/categories",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    Authorization: `Bearer ${this.$store.state.token}`,
+                },
+            };
+            axios
+                .request(config)
+                .then((response) => {
+                    console.log("Response Categories : ", response.data);
+                    if (response.data) {
+                        this.categories = response.data;
+                    }
+                })
+                .catch((error) => {
+                    console.log("Error Categories :", error.response);
+                });
+        },
     },
 
     mounted() {
+        this.getCategories();
         // this.init();
     },
 };

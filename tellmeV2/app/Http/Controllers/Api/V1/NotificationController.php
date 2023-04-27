@@ -55,17 +55,45 @@ class NotificationController extends Controller
     public function notifications(Request $request)
     {
         $user = User::find($request->id);
-
         if ($user) {
 
-            return response()->json([
-                'success',
-                'data' => $user->unreadNotifications
-            ]);
+            if (count($user->unreadNotifications) && $user->unreadNotifications[0]->notifiable_id === $request->id) {
+                return response()->json([
+                    'success' => true,
+                    'unreadNotifications' => $user->unreadNotifications,
+                    // 'latest_unreadNotification' =>  $user->unreadNotifications[0],
+                    // 'status' => $user->unreadNotifications[0]->data['status'],
+                    // 'length' => count($user->unreadNotifications),
+
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                ]);
+            }
         } else {
             return response()->json([
 
                 'error' => 'user not found'
+            ]);
+        }
+    }
+
+    public function markAsRead(Request $request)
+    {
+        $user = User::find($request->id);
+        if ($user) {
+
+            $user->unreadNotifications()->where('id', $request->notificationId)->first()->markAsRead();
+            return response()->json([
+
+                'success' => true
+            ]);
+        } else {
+            return response()->json([
+
+                'success' => false,
+                'error' => 'User not Found'
             ]);
         }
     }
